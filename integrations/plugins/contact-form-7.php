@@ -88,9 +88,15 @@ function cmplz_contactform7_errormessage( $message, $status ) {
 		$accept_text = apply_filters( 'cmplz_accept_cookies_contactform7',
 			__( 'Click to accept marketing cookies and enable this form',
 				'complianz-gdpr' ) );
+		/**
+		 * #start-tng-a11y
+		 * Add a `role="button"` attribute
+		 * Replace the `<div>` by a `<span>` because it goes inside a `<p>` (in our Contact Form 7 version that is fixing accessibility issues)
+		 */
 		$message
-		             = '<div class="cmplz-blocked-content-notice cmplz-accept-marketing"><a href="#">'
-		               . $accept_text . '</a></div>';
+		             = '<span class="cmplz-blocked-content-notice cmplz-accept-marketing"><a href="#" role="button">'
+					   . $accept_text . '</a></span>';
+		/** #end-tng-a11y */
 	}
 
 	return $message;

@@ -727,24 +727,29 @@ jQuery(document).ready(function ($) {
 			$('<style>').prop("type", "text/css").html(css).appendTo("head");
 		}
 
-		var save_button = '<a aria-label="{{save_preferences}}" href="#" class="cc-btn cc-save cc-save-settings">{{save_preferences}}</a>';
+		/**
+		 * #start-tng-a11y
+		 * Fix the use of `aria-label`, `role="button"` attributes
+		 */
+		var save_button = '<a role="button" href="#" class="cc-btn cc-save cc-save-settings">{{save_preferences}}</a>';
 		if (complianz.use_categories === 'hidden' ) {
 			if (complianz.tcf_active) {
-				save_button = '<a aria-label="{{settings}}" href="#" class="cc-btn cc-save cc-show-settings">{{settings}}</a><a aria-label="{{dismiss}}" href="#" class="cc-btn cc-dismiss">{{dismiss}}</a>';
+				save_button = '<a role="button" href="#" class="cc-btn cc-save cc-show-settings">{{settings}}</a><a role="button" href="#" class="cc-btn cc-dismiss">{{dismiss}}</a>';
 			} else {
-				save_button = '<a aria-label="{{dismiss}}" href="#" class="cc-btn cc-dismiss">{{dismiss}}</a><a aria-label="{{settings}}" href="#" class="cc-btn cc-save cc-show-settings">{{settings}}</a>';
+				save_button = '<a role="button" href="#" class="cc-btn cc-dismiss">{{dismiss}}</a><a role="button" href="#" class="cc-btn cc-save cc-show-settings">{{settings}}</a>';
 			}
 		}
 
 		if (complianz.use_categories === 'visible' || complianz.use_categories === 'hidden' ) {
-			save_button = '<a aria-label="{{accept_all}}" href="#" class="cc-btn cc-accept-all">{{accept_all}}</a>'+save_button;
+			save_button = '<a role="button" href="#" class="cc-btn cc-accept-all">{{accept_all}}</a>'+save_button;
 		}
 
-		var dismiss_button = '<a aria-label="{{dismiss}}" href="#" role="button" class="cc-btn cc-dismiss">{{dismiss}}</a>';
-		var allow_button = '<a aria-label="{{allow}}" href="#" role="button" class="cc-btn cc-save cc-allow">{{allow}}</a>';
+		var dismiss_button = '<a href="#" role="button" class="cc-btn cc-dismiss">{{dismiss}}</a>';
+		var allow_button = '<a href="#" role="button" class="cc-btn cc-save cc-allow">{{allow}}</a>';
 		if (complianz.consenttype === 'optout' ) {
-			dismiss_button ='<a aria-label="{{dismiss}}" href="#" role="button" class="cc-btn cc-allow">{{dismiss}}</a>';
+			dismiss_button ='<a href="#" role="button" class="cc-btn cc-allow">{{dismiss}}</a>';
 		}
+		/** #end-tng-a11y */
 
 		//allow to set cookies on the root domain
 		var domain = cmplzGetCookieDomain();
@@ -829,7 +834,12 @@ jQuery(document).ready(function ($) {
 			"dismissOnTimeout": parseInt(complianz.dismiss_on_timeout),
 			"dismissOnScroll": parseInt(complianz.dismiss_on_scroll),
 			"dismissOnWindowClick": true,
-			"revokeBtn": '<div class="cc-revoke ' + complianz.hide_revoke + ' {{classes}}">' + complianz.revoke + '</div>',
+			/**
+			 * #start-tng-a11y
+			 * Make the `div` a real button
+			 */
+			"revokeBtn": '<button type="button" class="cc-revoke ' + complianz.hide_revoke + ' {{classes}}">' + complianz.revoke + '</button>',
+			/** #end-tng-a11y */
 			"palette": {
 				"popup": {
 					"background": complianz.popup_background_color,
@@ -858,7 +868,13 @@ jQuery(document).ready(function ($) {
 				"allow": allow_button,
 				"save": save_button,
 				"categories-checkboxes": complianz.categories,
-				"messagelink": '<span id="cookieconsent:desc" class="cc-message">{{message}} <a aria-label="{{link}}" class="cc-link" href="{{href}}">{{link}}</a>' + complianz.privacy_link[complianz.region] + '</span>',
+				/**
+				 * #start-tng-a11y
+				 * Replace the `span` by a `div`
+				 * Remove useless `aria-label`
+				 */
+				"messagelink": '<div id="cookieconsent:desc" class="cc-message">{{message}} <a class="cc-link" href="{{href}}">{{link}}</a>' + complianz.privacy_link[complianz.region] + '</div>',
+				/** #end-tng-a11y */
 			},
 			"content": {
 				"save_preferences": complianz.save_preferences,
