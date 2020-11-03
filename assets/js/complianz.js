@@ -1086,9 +1086,17 @@ jQuery(document).ready(function ($) {
 		ccName.close();
 		$('.cc-revoke').fadeIn();
 
+		/**
+		 * #start-tng-a11y
+		 * Add the `else` point
+		 */
 		if (reload) {
 			location.reload();
+		} else {
+			/* Replace focus on the button to open the cookie banner if the page is not reloaded */
+			$('.cc-revoke').focus();
 		}
+		/** #end-tng-a11y */
 	}
 
 	/**
