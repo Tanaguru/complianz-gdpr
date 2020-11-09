@@ -973,7 +973,12 @@ jQuery(document).ready(function ($) {
 	 **/
 
 	$(document).on('click', '.cc-save-settings', function () {
-		cmplzSaveCategoriesSelection();
+		/**
+		 * #start-tng-a11y
+		 * Add function paramater
+		 */
+		cmplzSaveCategoriesSelection('banner');
+		/** #end-tng-a11y */
 		// cmplzFireCategories(false, true);
 	});
 
@@ -998,8 +1003,12 @@ jQuery(document).ready(function ($) {
 	 * Should be run always after the checkboxes have been checked.
 	 *
 	 * */
-
-	function cmplzSaveCategoriesSelection() {
+	/**
+	 * #start-tng-a11y
+	 * Add function paramater
+	 */
+	function cmplzSaveCategoriesSelection(origin) {
+	/** #end-tng-a11y */
 
 		if (complianz.soft_cookiewall) {
 			dismissCookieWall();
@@ -1088,13 +1097,16 @@ jQuery(document).ready(function ($) {
 
 		/**
 		 * #start-tng-a11y
-		 * Add the `else` point
+		 * - Test the origin of the cookie acceptance (in the banner or via an isolated button): if isolated button, don't reload and don't move focus to be able to continue keyboard navigation.
+		 * - Add the `else` point: if there is no reload, move focus on the button to open parameters
 		 */
-		if (reload) {
-			location.reload();
-		} else {
-			/* Replace focus on the button to open the cookie banner if the page is not reloaded */
-			$('.cc-revoke').focus();
+		if (origin == 'banner') {
+			if (reload) {
+				location.reload();
+			} else {
+				/* Replace focus on the button to open the cookie banner if the page is not reloaded */
+				$('.cc-revoke').focus();
+			}
 		}
 		/** #end-tng-a11y */
 	}
@@ -1144,7 +1156,12 @@ jQuery(document).ready(function ($) {
 		if (!$(this).closest('.cc-window').length) {
 			cmplzFireCategories();
 			cmplzDisableAutoDismiss();
-			cmplzSaveCategoriesSelection();
+			/**
+			 * #start-tng-a11y
+			 * Add function paramater
+			 */
+			cmplzSaveCategoriesSelection('banner');
+			/** #end-tng-a11y */
 		}
 
 	});
@@ -1210,7 +1227,12 @@ jQuery(document).ready(function ($) {
 			$(this).prop('checked', true);
 		});
 		cmplzFireCategories('marketing', true);
-		cmplzSaveCategoriesSelection();
+		/**
+		 * #start-tng-a11y
+		 * Add function paramater
+		 */
+		cmplzSaveCategoriesSelection('isolated');
+		/** #end-tng-a11y */
 		cmplzEnableMarketing();
 	});
 
@@ -1231,7 +1253,12 @@ jQuery(document).ready(function ($) {
 		//sync with checkboxes in banner
 		cmplzSyncCategoryCheckboxes(true);
 		cmplzFireCategories('all', true);
-		cmplzSaveCategoriesSelection();
+		/**
+		 * #start-tng-a11y
+		 * Add function paramater
+		 */
+		cmplzSaveCategoriesSelection('banner');
+		/** #end-tng-a11y */
 		//dispatch event
 		var details = new Object();
 		details.region = complianz.region;
