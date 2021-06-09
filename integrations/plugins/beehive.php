@@ -42,7 +42,7 @@ add_action( 'after_setup_theme', 'cmplz_beehive_remove_scripts_others' );
  * @param $args
  */
 function cmplz_beehive_show_compile_statistics_notice( $args ) {
-	cmplz_notice( sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.",
+	cmplz_sidebar_notice( sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.",
 		'complianz-gdpr' ), 'Beehive' ) );
 }
 
@@ -74,16 +74,11 @@ function cmplz_beehive_options( $options, $network ) {
  */
 
 function cmplz_beehive_filter_warnings( $warnings ) {
-	if ( ( $key = array_search( 'ga-needs-configuring', $warnings ) )
-	     !== false
-	) {
-		unset( $warnings[ $key ] );
-	}
-
+	unset( $warnings[ 'ga-needs-configuring' ] );
 	return $warnings;
 }
 
-add_filter( 'cmplz_warnings', 'cmplz_beehive_filter_warnings' );
+add_filter( 'cmplz_warning_types', 'cmplz_beehive_filter_warnings' );
 
 /**
  * Hide the stats configuration options when Beehive is enabled.
@@ -96,7 +91,6 @@ add_filter( 'cmplz_warnings', 'cmplz_beehive_filter_warnings' );
 function cmplz_beehive_filter_fields( $fields ) {
 	unset( $fields['configuration_by_complianz'] );
 	unset( $fields['UA_code'] );
-
 	return $fields;
 }
 
@@ -107,11 +101,11 @@ add_filter( 'cmplz_fields', 'cmplz_beehive_filter_fields', 20, 1 );
  */
 function cmplz_beehive_compile_statistics_more_info_notice() {
 	if ( cmplz_no_ip_addresses() ) {
-		cmplz_notice( __( "You have selected you anonymize IP addresses. This setting is now enabled in Beehive.",
+		cmplz_sidebar_notice( __( "You have selected you anonymize IP addresses. This setting is now enabled in Beehive.",
 			'complianz-gdpr' ) );
 	}
 	if ( cmplz_statistics_no_sharing_allowed() ) {
-		cmplz_notice( __( "You have selected you do not share data with third-party networks. Display advertising is now disabled in Beehive.",
+		cmplz_sidebar_notice( __( "You have selected you do not share data with third-party networks. Display advertising is now disabled in Beehive.",
 			'complianz-gdpr' ) );
 	}
 }

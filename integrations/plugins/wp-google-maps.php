@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 function cmplz_wp_google_maps_replace_gdpr_notice( $html ) {
 	$img = cmplz_default_placeholder( 'google-maps' );
 	$msg = '<div style="text-align:center;margin-bottom:15px">'
-	       . __( 'To enable Google Maps cookies, please click "I Agree"',
+	       . __( 'To enable Google Maps cookies, click on I Agree',
 			"complianz-gdpr" ) . '</div>';
 
 	return apply_filters( 'cmplz_wp_google_maps_html',
@@ -56,7 +56,7 @@ function cmplz_wp_google_maps_js() {
 	}
 
 	$script = 'setInterval(function () {if($(\'.wpgmza-api-consent\').length) {$(\'.wpgmza-api-consent\').addClass(\'cmplz-accept-marketing\');}}, 2000);';
-	wp_add_inline_script( 'jquery', "jQuery(document).ready(function($){console.log('test3');$script});" );
+	wp_add_inline_script( 'jquery', "jQuery(document).ready(function($){".$script."});" );
 }
 add_action( 'wp_enqueue_scripts', 'cmplz_wp_google_maps_js' );
 

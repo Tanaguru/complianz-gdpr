@@ -1,6 +1,5 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
-
 add_filter( 'cmplz_fields_load_types', 'cmplz_filter_integration_fields', 10, 1 );
 function cmplz_filter_integration_fields( $fields ) {
 	global $cmplz_integrations_list;
@@ -26,11 +25,12 @@ function cmplz_filter_integration_fields( $fields ) {
 				$plugin_fields[ $plugin ]['callback_condition']
 					= $details['callback_condition'];
 			}
-
-			if ( ( defined( $details['constant_or_function'] )
+			$theme = wp_get_theme();
+			if ( defined( $details['constant_or_function'] )
 			       || function_exists( $details['constant_or_function'] )
-			       || class_exists( $details['constant_or_function'] ) )
-			) {
+			       || class_exists( $details['constant_or_function'] )
+			       || ($theme && ($theme->name === $details['constant_or_function']) )
+				) {
 				$plugin_fields[ $plugin ]['disabled'] = false;
 				$plugin_fields[ $plugin ]['default']  = true;
 				$enabled_plugin_fields[ $plugin ]
@@ -43,7 +43,6 @@ function cmplz_filter_integration_fields( $fields ) {
 
 	//now make sure enabled ones are first
 	$fields = $fields + $enabled_plugin_fields;
-
 	return $fields;
 
 }

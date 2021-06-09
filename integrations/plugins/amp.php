@@ -1,6 +1,7 @@
 <?php
-
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
+
+
 
 if ( ! class_exists( "cmplz_amp" ) ) {
 	class cmplz_amp {
@@ -14,29 +15,37 @@ if ( ! class_exists( "cmplz_amp" ) ) {
 			}
 
 			self::$_this = $this;
-
-			add_filter( 'amp_post_template_data',
-				array( $this, 'enqueue_amp_assets' ), 10 );
-
-			add_action( 'amp_post_template_footer',
-				array( $this, 'get_amp_banner' ), 9999 );
+			add_filter( 'amp_post_template_data', array( $this, 'enqueue_amp_assets' ), 10 );
+			add_action( 'amp_post_template_footer', array( $this, 'get_amp_banner' ), 9999 );
 			add_action( 'wp_footer', array( $this, 'get_amp_banner' ), 9999 );
-			add_action( 'wp_ajax_cmplz_amp_endpoint',
-				array( $this, 'amp_endpoint' ) );
-			add_action( 'wp_ajax_nopriv_cmplz_amp_endpoint',
-				array( $this, 'amp_endpoint' ) );
-
+			add_action( 'wp_ajax_cmplz_amp_endpoint', array( $this, 'amp_endpoint' ) );
+			add_action( 'wp_ajax_nopriv_cmplz_amp_endpoint', array( $this, 'amp_endpoint' ) );
 			add_action( 'amp_post_template_css', array( $this, 'amp_styles' ) );
-
 			add_action( 'plugins_loaded', array( $this, 'init' ), 11 );
-			add_action( 'cmplz_amp_tags',
-				array( $this, 'handle_anonymous_settings' ) );
-
+			add_action( 'cmplz_amp_tags', array( $this, 'handle_anonymous_settings' ) );
 			add_action('wp', array($this, 'custom_amp_css') );
+
+			add_filter('cmplz_cookieblocker_amp',  array($this, 'cookieblocker_for_amp') );
 		}
 
 		static function this() {
 			return self::$_this;
+		}
+
+		/**
+		 * @param $output
+		 *
+		 * @return string
+		 */
+		public function cookieblocker_for_amp( $output ) {
+			$amp_tags = COMPLIANZ::$config->amp_tags;
+
+			$amp_tags = apply_filters( 'cmplz_amp_tags', $amp_tags );
+			foreach ( $amp_tags as $amp_tag ) {
+				$output = str_replace( '<' . $amp_tag . ' ',
+					'<' . $amp_tag . ' data-block-on-consent ', $output );
+			}
+			return $output;
 		}
 
 		public function custom_amp_css(){
@@ -110,8 +119,7 @@ if ( ! class_exists( "cmplz_amp" ) ) {
 				return;
 			}
 
-			$consentHrefUrl = add_query_arg( 'action', 'cmplz_amp_endpoint',
-				admin_url( 'admin-ajax.php' ) );
+			$consentHrefUrl = add_query_arg( 'action', 'cmplz_amp_endpoint', admin_url( 'admin-ajax.php' ) );
 
 			//amp only accepts https or //
 			$consentHrefUrl = str_replace( "http://", "//", $consentHrefUrl );
@@ -233,15 +241,13 @@ if ( ! class_exists( "cmplz_amp" ) ) {
                         margin: 8px;
                         }
                 ',
-				$this->banner->popup_background_color,
-				$this->banner->popup_text_color,
+				$this->banner->background['color'],
+				$this->banner->text['color'],
 				$this->banner->button_background_color,
 				$this->banner->button_text_color
 			);
-			if ( $this->banner->use_custom_cookie_css
-			     && strlen( $this->banner->custom_css_amp ) > 0
-			) {
-				echo $this->banner->custom_css_amp;
+			if ( $this->banner->use_custom_cookie_css && strlen( $this->banner->custom_css ) > 0) {
+				echo $this->banner->custom_css;
 			}
 		}
 

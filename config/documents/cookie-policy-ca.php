@@ -7,7 +7,7 @@ defined('ABSPATH') or die("you do not have acces to this page!");
 
 $this->pages['ca']['cookie-statement']['document_elements'] = array(
     array(
-        'content' => '<i>' . sprintf(_x("This page was last changed on %s, last checked on %s and applies to citizens of Canada.","Legal document cookie policy","complianz-gdpr"), '[publish_date]', '[checked_date]') . '</i>',
+        'content' => '<i>' . sprintf(_x("This page was last changed on %s, last checked on %s and applies to citizens and legal permanent residents of Canada.","Legal document cookie policy","complianz-gdpr"), '[publish_date]', '[checked_date]') . '</i>',
     ),
     array(
 	    'title' => _x('Introduction', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
@@ -28,18 +28,6 @@ $this->pages['ca']['cookie-statement']['document_elements'] = array(
         'callback_condition' => 'NOT cmplz_uses_only_functional_cookies',
     ),
     array(
-        'title' => _x('Consent', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
-        'content' => _x('When you visit our website for the first time, we will show you a pop-up with an explanation about cookies. You do have the right to opt-out and to object against the further use of non-functional cookies.',"Legal document cookie policy","complianz-gdpr"),
-    ),
-    array(
-	    'subtitle' => _x('Manage your consent settings', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
-	    'content' => '[cmplz-manage-consent]',
-    ),
-
-    array(
-        'content' =>_x('You can also disable the use of cookies via your browser, but please note that our website may no longer work properly.', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
-    ),
-    array(
         'title' => _x('Third parties', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
         'content' => _x('We have made agreements about the use of cookies with other companies that place cookies. However, we cannot guarantee that these third parties handle your personal data in a reliable or secure manner. Parties such as Google are to be considered as independent data controllers. We recommend that you read the privacy statements of these companies.',"Legal document cookie policy","complianz-gdpr"),
         'callback_condition' => 'cmplz_site_shares_data',
@@ -52,10 +40,10 @@ $this->pages['ca']['cookie-statement']['document_elements'] = array(
         'content' => _x('Some cookies ensure that certain parts of the website work properly and that your user preferences remain known. By placing functional cookies, we make it easier for you to visit our website. This way, you do not need to repeatedly enter the same information when visiting our website and, for example, the items remain in your shopping cart until you have paid.','Legal document cookie policy', 'complianz-gdpr'),
     ),
 
-    //analytical
+    //statistics
     array(
-        'subtitle' => _x('Analytical cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
-        'content' => _x('We use analytical cookies to optimize the website experience for our users. With these analytical cookies we get insights in the usage of our website.','Legal document cookie policy', 'complianz-gdpr'),
+        'subtitle' => _x('Statistics cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
+        'content' => _x('We use statistics cookies to optimize the website experience for our users. With these statistics cookies we get insights in the usage of our website.','Legal document cookie policy', 'complianz-gdpr'),
         'callback_condition' => 'cmplz_uses_statistics',
         'condition' => array('compile_statistics' => 'NOT no'),
     ),
@@ -72,7 +60,7 @@ $this->pages['ca']['cookie-statement']['document_elements'] = array(
 
     array(
         'subtitle' => _x('Advertising cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
-        'content' => sprintf(_x('On this website we use advertising cookies, enabling us to gain insights into the campaign results. This happens based on a profile we create based on your behavior on %s. With these cookies you, as website visitor are linked to a unique ID, but will not profile your behavior and interests to serve personalized ads.','Legal document cookie policy', 'complianz-gdpr'), '[domain]'),
+        'content' => sprintf(_x('On this website we use advertising cookies, enabling us to gain insights into the campaign results. This happens based on a profile we create based on your behavior on %s. With these cookies you, as website visitor, are linked to a unique ID but these cookies will not profile your behavior and interests to serve personalized ads.','Legal document cookie policy', 'complianz-gdpr'), '[domain]'),
         'condition' => array(
             'uses_ad_cookies' => 'yes',
             'uses_ad_cookies_personalized' => 'no'
@@ -80,11 +68,20 @@ $this->pages['ca']['cookie-statement']['document_elements'] = array(
     ),
 
     array(
-        'content' => _x('You can object to the tracking by these cookies by clicking the "Revoke cookie consent" button.','Legal document cookie policy', 'complianz-gdpr'),
+        'content' => _x('You can object to the tracking by these cookies by clicking the "Manage Consent" button.','Legal document cookie policy', 'complianz-gdpr'),
         'condition' => array(
             'uses_ad_cookies' => 'yes',
         ),
     ),
+
+	array(
+		'subtitle' => _x('Marketing/Tracking cookies', 'cookie policy', 'complianz-gdpr'),
+		'content' => _x('Marketing/Tracking cookies are cookies or any other form of local storage, used to create user profiles to display advertising or to track the user on this website or across several websites for similar marketing purposes.', 'cookie policy', 'complianz-gdpr'),
+//		'condition' => array(
+//			'uses_ad_cookies' => 'no',
+//		),
+		'callback_condition' => 'cmplz_uses_marketing_cookies',
+	),
 
     array(
         'subtitle' => _x('Social media buttons', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
@@ -100,10 +97,32 @@ $this->pages['ca']['cookie-statement']['document_elements'] = array(
 	'cookie_names' => array(
 		'title' => _x('Placed cookies', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
 		'callback' => 'cmplz_used_cookies',
-		'condition' => array(
-			'uses_cookies' => 'yes',
-		),
 	),
+
+  array(
+      'title' => _x('Consent', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
+      'content' => _x('When you visit our website for the first time, we will show you a pop-up with an explanation about cookies. You do have the right to opt-out and to object against the further use of non-functional cookies.',"Legal document cookie policy","complianz-gdpr"),
+  ),
+  array(
+    'subtitle' => _x('Manage your consent settings', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
+    'content' => '[cmplz-manage-consent]',
+  ),
+array(
+  'content' =>_x('You can also disable the use of cookies via your browser, but please note that our website may no longer work properly.', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
+),
+array(
+  'subtitle' => _x('Vendors', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),
+  'p' => false,
+  'content' => '[cmplz-tcf-vendors]',
+  'callback_condition' => array(
+    'cmplz_tcf_active',
+    'cmplz_site_shares_data',
+  ),
+  'condition' => array(
+    'sensitive_information_processed' => 'yes'
+  ),
+
+),
 
     array(
 	    'title' => _x('Your rights with respect to personal data', 'Legal document cookie policy:paragraph title', 'complianz-gdpr'),

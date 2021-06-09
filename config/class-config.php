@@ -6,384 +6,13 @@ if ( ! class_exists( "cmplz_config" ) ) {
 	class cmplz_config {
 		private static $_this;
 		public $fields = array();
+		public $formal_languages = array();
 
-		public $upgrade_cookies
-			= array(
-				'__adroll_fpc',
-				'__asc',
-				'__auc',
-				'__atuvs',
-				'__atuvc',
-				'psc',
-				'uid',
-				'uit',
-				'uvc',
-				'cw_id',
-				'loc',
-				'mus',
-				'na_id',
-				'na_tc',
-				'uvc',
-				'uid',
-				'ouid',
-				'__atssc',
-				'_at.cww',
-				'_at.hist.xxxxxx',
-				'at-lojson-cache-ra-xxxxxx',
-				'at-lojson-cache-wp-xxxxxx',
-				'at-rand',
-				'__cfduid',
-				'_sm_au_c',
-				'__insp_norec_sess, __insp_nv, __insp_ref, __insp_slim, __insp_targetlpt, __insp _targlpu, __insp_wid',
-				'__smVID',
-				'__smToken',
-				'partial_smSessionId',
-				'__smScrollBoxShown',
-				'__smListBuilderShown',
-				'__stid',
-				'uset',
-				'_utmb',
-				'_utmz',
-				'_utmc',
-				'_utma',
-				'optimizelyPendingLogEvents',
-				'optimizelyBuckets',
-				'optimizelySegments',
-				'optimizelyEndUserId',
-				'__uset',
-				'stdlxmap',
-				'_stacxiommap',
-				'_stamap',
-				'_stgmap',
-				'_stid',
-				'UID',
-				'UIDR',
-				'__stripe_mid',
-				'__stripe_sid',
-				'__tawkuuid',
-				'TawkConnectionTime',
-				'tawkUUID',
-				'tawk-partial_',
-				'twk-partial_',
-				'TawkWindowName',
-				'__zlcmid',
-				'__zprivacy',
-				'__zlcstore',
-				'_beeketing_cart_token',
-				'beeketing_show_review_request',
-				'beeketing_show_cross_sell',
-				'bk_show_tab_freeApps',
-				'bk_abtest_last_changed_time',
-				'bk_identify',
-				'bk_cart',
-				'bk_gs',
-				'bk_gs_time',
-				'beeketing_show_first_time',
-				'beeketing_activated_plugin',
-				'beeketing_hide_review_request',
-				'beeketing_cart_fragments_init',
-				'_ceir',
-				'_ceg.s',
-				'_ceg.u',
-				'_ceg_s',
-				'_ceg_u',
-				'_drip_client_6994213',
-				'_ga',
-				'_gid',
-				'_gat',
-				'_gaexp',
-				'_utm',
-				'__utmc',
-				'UTMD_',
-				'__utmv',
-				'__utmz',
-				'_gat_gtag_UA_ID',
-				'_hjIncludedInSample',
-				'_hjMinimizedTestersWidgets',
-				'_hjClosedSurveyInvites',
-				'_hjDonePolls',
-				'_hjMinimizedPolls',
-				'_hjDoneTestersWidgets',
-				'_hp2_ses',
-				'_iub_cs-xxxx',
-				'_jsuid',
-				'_lscache_vary',
-				'_omappvp',
-				'_omappvs',
-				'_pk_ref',
-				'_pk_cvar',
-				'_pk_id',
-				'_pk_ses',
-				'_pk_hsr',
-				'piwik_ignore',
-				'PIWIK_SESSID',
-				'_shopify_y',
-				'_shopify_sa_t',
-				'_shopify_sa_p',
-				'_shopify_s',
-				'_shopify_fs',
-				'_orig_referrer',
-				'_tccl_visitor',
-				'_tccl_visit',
-				'_utmb',
-				'_utmz',
-				'_utmc',
-				'_utma',
-				'_vis_opt_out',
-				'_vis_opt_s',
-				'partial_vis_opt_exp',
-				'_vis_opt_test_cookie',
-				'_vis_opt_exp_[experiment_id]_goal_[goal_id]',
-				'partial_vwo_',
-				'_vwo_uuid_v2',
-				'_wordpress_',
-				'_wpfuuid',
-				'1P_JAR',
-				'ac_enable_tracking',
-				'acalltracker',
-				'acalltrackersession',
-				'ADK_EX_15',
-				'ADKUID',
-				'advanced_ads_browser_width',
-				'aelia_cs_selected_currency',
-				'affwp_ref',
-				'affwp_campaign',
-				'affwp_ref_visit_id',
-				'amazon-pay-connectedAuth',
-				'amazon-pay-abtesting-new-widgets',
-				'autoptimize_feed',
-				'bleeper_customerID-xxxxxx',
-				'bleeper_current',
-				'bleeper_first',
-				'bp-activity-oldestpage',
-				'calltrk_landing',
-				'calltrk_referrer',
-				'calltrk_session_id_xxxxxx',
-				'catAccCookies',
-				'CMDD',
-				'CMRUM3',
-				'CMSC',
-				'cmplz_marketing',
-				'cmplz_event_xxx',
-				'cmplz_stats',
-				'cmplz_id',
-				'complianz_config',
-				'complianz_consent_status',
-				'complianz_policy_id',
-				'CookieConsent',
-				'ct_sfw_pass_key',
-				'apbct_site_landing_ts',
-				'ct_checkjs',
-				'apbct_visible_fields',
-				'apbct_visible_fields_count',
-				'ct_fkp_timestamp',
-				'ct_pointer_data',
-				'ct_timezone',
-				'ct_ps_timestamp',
-				'apbct_timestamp',
-				'apbct_page_hits',
-				'apbct_cookies_test',
-				'ctm',
-				'dextp',
-				'dmvk',
-				'hist',
-				's_vi',
-				'ts',
-				'v1st',
-				'DYAMAR_POLL_16_VOTED',
-				'DYAMAR_POLL_xxxxxx_VOTED',
-				'end_user_id',
-				'cdnoptimizely',
-				'ab_optimizely',
-				'optimizelyPendingLogEvents',
-				'optimizelyEndUserId',
-				'optimizelySegments',
-				'optimizelyBuckets',
-				'optimizelyPPID',
-				'eucookielaw',
-				'everest_g_v2',
-				'everest_session_v2',
-				'ev_sync_dd',
-				'actppresence',
-				'sb',
-				'csm',
-				'c_user',
-				'frstxs',
-				'datr',
-				'_fbp',
-				'fca_eoi_pagecount',
-				'ff_news_session',
-				'fs_uid',
-				'fusionredux_current_tab',
-				'fusion_metabox_tab_10',
-				'fusion_metabox_tab_744',
-				'fusion_metabox_tab_16',
-				'fusion_metabox_tab_14',
-				'fusion_metabox_tab_2012',
-				'fusion_metabox_tab_8',
-				'gig_hasGmid',
-				'google_experiment_mod',
-				'hid',
-				'has_js',
-				'tk',
-				'uic',
-				'ect',
-				'udc',
-				'dis',
-				'udi',
-				'hide_eye_catcher',
-				'autoinvite_callback',
-				'__lc.visitor_id',
-				'hide_eye_catcher',
-				'autoinvite_callback',
-				'__lc.visitor_id',
-				'lc_invitation_opened',
-				'lc_window_state',
-				'lc_sso9818825',
-				'__lc_visitor_id',
-				'hppsession',
-				'hubspotutk',
-				'__hssrc',
-				'__hssc',
-				'__hstc',
-				'hs-messages-is-open',
-				'__hs_opt_out',
-				'messagesUtk',
-				'ibx_wpfomo_ip',
-				'idIDE',
-				'test_cookie',
-				'id',
-				'___gads',
-				'_drt_',
-				'DSID',
-				'IDE',
-				'ar_v4',
-				'incap_ses_xxxxxx',
-				'visid_incap_xxxxxx',
-				'intercom-id-xxxxxx',
-				'intercom-state',
-				'intercom-id-xxxxxx',
-				'itsec-hb-login-partial_',
-				'liveagent_oref',
-				'liveagent_sid',
-				'liveagent_vc',
-				'liveagent_ptid',
-				'logglytrackingsession',
-				'mailmunch_second_pageview',
-				'maxmegamenu.themeeditor',
-				'metrics_token',
-				'mixpanel',
-				'moove_gdpr_popup',
-				'PHPSESSID',
-				'pll_language',
-				'pmpro_visit',
-				'po_assigned_roles',
-				'po_assigned_roles',
-				'NID',
-				'id',
-				'_drt_',
-				'HSID',
-				'SSIDAPISID',
-				'SAPISID',
-				'__ut',
-				'OGPC',
-				'SID',
-				'HSID',
-				'SSID',
-				'APISID',
-				'SNID',
-				'CONSENT',
-				'_gat_gtag_UA_xxxxxx',
-				'privacy_embeds',
-				'pum-partial_',
-				'pvc_visits',
-				'qca',
-				'qtrans_front_language',
-				'qtrans_admin_language',
-				'qtrans_edit_language',
-				'rank-math-option-search-index',
-				'rank-math-option-search-premium',
-				'rank-math-option-sitemap-index',
-				'rank-math-option-general-index',
-				'rank-math-option-titles-index',
-				'redux_current_tab',
-				'redux_current_tab_get ',
-				'SL_C_xxxxxx_SID',
-				'SL_C_xxxxxx_KEY',
-				'SL_C_xxxxxx_SID',
-				'SL_C_xxxxxx_VID',
-				'AWSELB',
-				'Snoobisession_adcalls_nl',
-				'SnoobiID',
-				'Snoop_testi',
-				'ssupp.visits',
-				'ssupp.chatid',
-				'ssupp_vid',
-				'ssupp_visits',
-				'ssupp_chatid',
-				'tcb_google_fonts',
-				'tidio_state-xxxx',
-				'tk_lr',
-				'tk_or',
-				'tk_r3d',
-				'tk_tc',
-				'tk_qs',
-				'tk_ai',
-				'jetpackState',
-				'tl_conversion',
-				'tl-conv-partial_',
-				'ucp_tabs',
-				'uncodeAI_css',
-				'uncodeAI_images',
-				'uncodeAI_screen',
-				'uncodeAI.css',
-				'uncodeAI.images',
-				'uncodeAI.screen',
-				'utag_main',
-				'uuid',
-				'uuidc',
-				'HRL8',
-				'vchideactivationmsg_vc11',
-				'viewed_cookie_policy',
-				'vuid',
-				'__utma',
-				'__utmt_player',
-				'__utmz',
-				'__utmc',
-				'__utmb',
-				'wc_cart_hash_xxxxxx',
-				'wpwoocommerce_session_xxxxxx',
-				'woocommerce_recently_viewed',
-				'woocommerce_items_in_cart',
-				'woocommerce_cart_hash',
-				'wp_woocommerce_session_xxxxxx',
-				'wfvt_xxxxxx',
-				'wordfence_verifiedHuman',
-				'wfwaf-authcookie',
-				'wfwaf-authcookie-partial_',
-				'wf-scan-issue-expanded-1',
-				'wistia',
-				'woobe_calculator_operation',
-				'woobe_calculator_how',
-				'wp-donottrack_feed',
-				'wp-reset-tabs',
-				'wpdiscuz_last_visit',
-				'wpe_test_group',
-				'wpe-auth',
-				'wpgdprc-consent',
-				'wpglobus-language-old',
-				'wpglobus-language',
-				'wpml_browser_redirect_test',
-				'_icl_current_language',
-				'_icl_visitor_lang_js',
-				'_icl_current_admin_language_',
-				'wpr-hash',
-				'wpr-show-sidebar',
-				'X-LI-IDC',
-				'xxxxxx_mf',
+		public $upgrade_cookies = array(
 				'yith_wcwl_products',
 			);
 
+		public $supported_regions;
 		//used to check if social media is used on site
 
 		public $thirdparty_services
@@ -404,6 +33,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				"addtoany"         => 'AddToAny',
 				"sharethis"        => 'ShareThis',
 				"livechat"         => 'LiveChat',
+				"hubspot"          => 'HubSpot',
 				"calendly"         => 'Calendly',
 			);
 
@@ -490,7 +120,6 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				"vimeo"            => array( 'player.vimeo.com' ),
 				"google-recaptcha" => array(
 					'google.com/recaptcha',
-					'google.com/recaptcha',
 					'grecaptcha',
 					'recaptcha.js',
 					'recaptcha/api'
@@ -513,20 +142,21 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				"addtoany"          => array( 'addtoany.min.js', 'window.a2a_config' ),
 				"sharethis"        => array( 'sharethis.com' ),
 				"livechat"         => array( 'cdn.livechatinc.com/tracking.js' ),
+				"hubspot"         => array( 'js.hs-scripts.com/', 'hbspt.forms.create', 'js.hsforms.net' ),
 				"calendly"         => array( 'assets.calendly.com' ),
 			);
 
-		public $stats_markers
-			= array(
+		public $stats_markers = array(
 				'google-analytics'   => array(
 					'google-analytics.com/ga.js',
-					'www.google-analytics.com/analytics.js'
+					'www.google-analytics.com/analytics.js',
 				),
 				'google-tag-manager' => array(
 					'googletagmanager.com/gtag/js',
-					'gtm.js'
+					'gtm.js',
 				),
-				'matomo'             => array( 'piwik.js', 'matomo.js' ),
+				'matomo' => array( 'piwik.js', 'matomo.js' ),
+				'clicky' => array( 'static.getclicky.com/js', 'clicky_site_ids' ),
 			);
 
 
@@ -655,7 +285,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			 * 6: CA as separate region
 			 * 7: Impressum in germany
 			 * */
-			define( 'CMPLZ_LEGAL_VERSION', '7' );
+			define( 'CMPLZ_LEGAL_VERSION', '8' );
 
 			//common options type
 			$this->yes_no = array(
@@ -675,11 +305,10 @@ if ( ! class_exists( "cmplz_config" ) ) {
 				  . "&nbsp;";
 
 
-			/* config files */
+				/* config files */
 			require_once( cmplz_path . '/config/countries.php' );
 			require_once( cmplz_path . '/config/purpose.php' );
 			require_once( cmplz_path . '/config/steps.php' );
-			require_once( cmplz_path . '/config/warnings.php' );
 			require_once( cmplz_path . '/config/general-settings.php' );
 			require_once( cmplz_path . '/config/questions-wizard.php' );
 			require_once( cmplz_path . '/config/dynamic-fields.php' );
@@ -689,6 +318,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			require_once( cmplz_path . '/config/documents/cookie-policy-us.php' );
 			require_once( cmplz_path . '/config/documents/cookie-policy-uk.php' );
 			require_once( cmplz_path . '/config/documents/cookie-policy-ca.php' );
+			require_once( cmplz_path . '/config/documents/cookie-policy-au.php' );
 			require_once(cmplz_path . '/cookiebanner/settings.php' );
 
 			if ( file_exists( cmplz_path . '/pro/config/' ) ) {
@@ -704,6 +334,7 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			 * The integrations are loaded with priority 10
 			 * Because we want to initialize after that, we use 15 here
 			 */
+			add_action( 'plugins_loaded', array( $this, 'load_warning_types' ) );
 			add_action( 'plugins_loaded', array( $this, 'init' ), 15 );
 		}
 
@@ -788,10 +419,12 @@ if ( ! class_exists( "cmplz_config" ) ) {
 		}
 
 		public function preload_init(){
+			$this->stats_markers = apply_filters( 'cmplz_stats_markers', $this->stats_markers );
 			$this->fields = apply_filters( 'cmplz_fields_load_types', $this->fields );
 		}
 
 		public function init() {
+
 			$this->fields = apply_filters( 'cmplz_fields', $this->fields );
 			if ( ! is_admin() ) {
 				$regions = cmplz_get_regions(true);
@@ -808,7 +441,197 @@ if ( ! class_exists( "cmplz_config" ) ) {
 			}
 		}
 
+		public function load_warning_types() {
+			$this->warning_types = apply_filters('cmplz_warning_types' ,array(
+				'upgraded_to_five' => array(
+					'warning_condition' => 'cmplz_upgraded_to_five',
+					'open' => __( 'Complianz GDPR/CCPA 5.0. Learn more about our newest major release.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/meet-complianz-5-0/'),
+					'plus_one' => true,
+				),
+
+				'new_australia' => array(
+					'warning_condition' => 'cmplz_upgraded_to_current',
+					'open' => __( 'We have added a new region: Australia. Start the wizard to configure this new region.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/australia/'),
+					'plus_one' => true,
+				),
+				'wizard-incomplete'  => array(
+					'success_conditions'  => array(
+						'wizard->all_required_fields_completed_wizard'
+					),
+					'completed'    => __( 'The wizard has been completed.', 'complianz-gdpr' ),
+					'urgent' => __( 'Not all fields have been entered, or you have not clicked the "finish" button yet.', 'complianz-gdpr' ),
+					'plus_one' => true,
+					'include_in_progress' => true,
+				),
+
+				'complianz-gdpr-feature-update' => array(
+					'plus_one' => true,
+					'success_conditions' => array(
+						'NOT admin->complianz_plugin_has_new_features' //completed when no new features
+					),
+					'open' => __( 'The Complianz plugin has new features. Please check the wizard to see if all your settings are still up to date.', 'complianz-gdpr' ),
+					'include_in_progress' => true,
+				),
+
+				'no-dnt' => array(
+					'success_conditions'  => array(
+						'get_value_respect_dnt==yes'
+					),
+					'completed'    => __( 'Do Not Track is respected.', 'complianz-gdpr' ),
+					'open' => sprintf( __( 'The browser setting Do Not Track is not respected yet - (%spremium%s)', 'complianz-gdpr' ), '<a  target="_blank" href="https://complianz.io">', '</a>' ),
+				),
+
+				'has_formal' => array(
+					'success_conditions'  => array(
+						'NOT document->locale_has_formal_variant',
+					),
+					'open' => sprintf( __( 'You have currently selected an informal language, which will result in informal use of language on the legal documents. If you prefer the formal style, you can activate this in the %sgeneral settings%s.', 'complianz-gdpr' ), '<a  target="_blank" href="'.admin_url('options-general.php').'">', '</a>' ).
+					          cmplz_read_more('https://complianz.io/informal-language-in-legal-documents/'),
+					'include_in_progress' => true,
+
+				),
+
+				'cookies-changed' => array(
+					'plus_one' => true,
+					'warning_condition' => 'cookie_admin->cookies_changed',
+					'success_conditions'  => array(
+					),
+					'completed'    => __( 'No cookie changes have been detected.', 'complianz-gdpr' ),
+					'open' => __( 'Cookie changes have been detected.', 'complianz-gdpr' ) . " " . sprintf( __( 'Please review step %s of the wizard for changes in cookies.', 'complianz-gdpr' ), STEP_COOKIES ),
+					'include_in_progress' => true,
+				),
+				'no-cookie-scan' => array(
+					'success_conditions'  => array(
+						'cookie_admin->get_last_cookie_scan_date',
+					),
+					'completed'    => sprintf( __( 'Last cookie scan completed on %s.', 'complianz-gdpr' ), COMPLIANZ::$cookie_admin->get_last_cookie_scan_date() ),
+					'open' => __( 'No cookie scan has been completed yet.', 'complianz-gdpr' ),
+					'include_in_progress' => true,
+				),
+
+				'all-pages-created' => array(
+					'warning_condition' => 'wizard->wizard_completed_once',
+					'success_conditions'  => array(
+						'document->all_required_pages_created',
+					),
+					'completed'    => __( 'All required pages have been generated.', 'complianz-gdpr' ),
+					'open' => __( 'Not all required pages have been generated.', 'complianz-gdpr' ),
+					'include_in_progress' => true,
+				),
+
+				'no-ssl' => array(
+					'success_conditions'  => array(
+						'is_ssl'
+					),
+					'completed'    => __( "Great! You're already on SSL!", 'complianz-gdpr' ),
+					'open' => sprintf( __( "You don't have SSL on your site yet. Most hosting companies can install SSL for you, which you can quickly enable with %sReally Simple SSL%s", 'complianz-gdpr' ),
+						'<a target="_blank" href="https://wordpress.org/plugins/really-simple-ssl/">', '</a>' ),
+					'include_in_progress' => true,
+				),
+
+				'ga-needs-configuring'     => array(
+					'warning_condition' => 'cookie_admin->uses_google_analytics',
+					'success_conditions'  => array(
+						'cookie_admin->analytics_configured',
+					),
+					'open' => __( 'Google Analytics is being used, but is not configured in Complianz.', 'complianz-gdpr' ),
+					'include_in_progress' => true,
+				),
+
+				'gtm-needs-configuring'    => array(
+					'warning_condition' => 'cookie_admin->uses_google_tagmanager',
+					'success_conditions'  => array(
+						'cookie_admin->tagmanager_configured',
+					),
+					'open' => __( 'Google Tag Manager is being used, but is not configured in Complianz.', 'complianz-gdpr' ),
+					'include_in_progress' => true,
+				),
+
+				'matomo-needs-configuring' => array(
+					'warning_condition' => 'cookie_admin->uses_matomo',
+					'success_conditions'  => array(
+						'cookie_admin->matomo_configured',
+					),
+					'open' => __( 'Matomo is being used, but is not configured in Complianz.', 'complianz-gdpr' ),
+					'include_in_progress' => true,
+				),
+				'docs-need-updating'       => array(
+					'success_conditions'  => array(
+						'NOT document->documents_need_updating'
+					),
+					'open' => __( 'Your documents have not been updated in the past 12 months. Run the wizard to check your settings.', 'complianz-gdpr' ),
+					'include_in_progress' => true,
+				),
+				'cookies-incomplete'       => array(
+					'warning_condition' => 'NOT cookie_admin->use_cdb_api',
+					'success_conditions'  => array(
+				        'NOT cookie_admin->has_empty_cookie_descriptions',
+					),
+					'open' => __( 'You have cookies with incomplete descriptions.', 'complianz-gdpr' ) . " "
+					                 . sprintf( __( 'Enable the cookiedatabase.org API for automatic descriptions, or add these %smanually%s.', 'complianz-gdpr' ), '<a href="' . add_query_arg( array(
+								'page'    => 'cmplz-wizard',
+								'step'    => STEP_COOKIES,
+								'section' => 5
+							), admin_url( 'admin.php' ) ) . '">', '</a>' ),
+					'include_in_progress' => true,
+				),
+
+				'double-stats' => array(
+					'success_conditions'  => array(
+						'NOT get_option_cmplz_double_stats',
+					),
+					'open' => __( 'You have a duplicate implementation of your statistics tool on your site.', 'complianz-gdpr' ) .
+					          __( 'After the issue has been resolved, please re-run a scan to clear this message.', 'complianz-gdpr' )
+					                 . cmplz_read_more( 'https://complianz.io/duplicate-implementation-of-analytics/' ),
+					'include_in_progress' => true,
+				),
+
+				'no-jquery' => array(
+					'warning_condition' => 'cookie_admin->site_needs_cookie_warning',
+					'success_conditions'  => array(
+						'NOT get_option_cmplz_detected_missing_jquery',
+					),
+					'open' => __( 'jQuery was not detected on the front-end of your site. Complianz requires jQuery.', 'complianz-gdpr' ). cmplz_read_more( 'https://complianz.io/missing-jquery/' ),
+					'include_in_progress' => true,
+				),
+
+				'console-errors' => array(
+					'warning_condition' => 'cookie_admin->site_needs_cookie_warning',
+					'success_conditions'  => array(
+						'NOT cmplz_get_console_errors',
+					),
+					'open' => __( 'Javascript errors are detected on the front-end of your site. This may break the cookie banner functionality.', 'complianz-gdpr' )
+					                 . '<br>'.__("Last error in the console:", "complianz-gdpr")
+					                 .'<div style="color:red">'
+					                 . cmplz_get_console_errors()
+					                 .'</div>'
+					                 . cmplz_read_more( 'https://complianz.io/cookie-banner-does-not-appear/' , false ),
+					'include_in_progress' => true,
+				),
+
+				'cookie-banner-enabled' => array(
+					'warning_condition' => 'wizard->wizard_completed_once',
+					'success_conditions'  => array(
+						'cookie_admin->site_needs_cookie_warning',
+					),
+					'completed' => __( 'Your site requires a cookie banner, which has been enabled.', 'complianz-gdpr' ),
+					'open' => __( 'Your site does not require a cookie banner.', 'complianz-gdpr' ),
+					'include_in_progress' => true,
+				),
+
+				'pretty-permalinks-error' => array(
+					'success_conditions'  => array(
+						'document->pretty_permalinks_enabled',
+					),
+					'plus_one' => true,
+					'urgent' => __( 'Pretty permalinks are not enabled on your site. This can cause issues with the REST API, used by Complianz.', 'complianz-gdpr' ),
+					'include_in_progress' => true,
+				),
+			) );
+		}
 
 	}
+
+
 
 } //class closure

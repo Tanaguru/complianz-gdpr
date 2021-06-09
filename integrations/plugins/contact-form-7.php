@@ -1,13 +1,13 @@
 <?php
 defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 function cmplz_cf7_initDomContentLoaded() {
+	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '>=')) return;
 
 	if (class_exists('IQFix_WPCF7_Deity')) return;
 
 	$service = WPCF7_RECAPTCHA::get_instance();
-
 	if ( $service->is_active() ) {
-		if (version_compare(WPCF7_VERSION, 5.2, '>=')) {
+		if (version_compare(WPCF7_VERSION, 5.2, '>=') ) {
 			?>
 			<script>
 				jQuery(document).ready(function ($) {
@@ -84,19 +84,17 @@ add_action( 'wp_footer', 'cmplz_cf7_initDomContentLoaded' );
  * @return string
  */
 function cmplz_contactform7_errormessage( $message, $status ) {
+	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '>=')) return $message;
+
 	if ( $status === 'spam' ) {
-		$accept_text = apply_filters( 'cmplz_accept_cookies_contactform7',
-			__( 'Click to accept marketing cookies and enable this form',
-				'complianz-gdpr' ) );
-		/**
-		 * #start-tng-a11y
-		 * Add a `role="button"` attribute
-		 * Replace the `<div>` by a `<span>` because it goes inside a `<p>` (in our Contact Form 7 version that is fixing accessibility issues)
-		 */
-		$message
-		             = '<span class="cmplz-blocked-content-notice cmplz-accept-marketing"><a href="#" role="button">'
-					   . $accept_text . '</a></span>';
-		/** #end-tng-a11y */
+
+
+		if ( version_compare(WPCF7_VERSION, 5.4, '<') ) {
+			$message = apply_filters( 'cmplz_accept_cookies_contactform7', __( 'Click to accept marketing cookies and enable this form', 'complianz-gdpr' ) );
+			$message = '<span class="cmplz-blocked-content-notice cmplz-accept-marketing"><a href="#" role="button">' . $message . '</a></span>';
+		} else {
+			$message = apply_filters( 'cmplz_accept_cookies_contactform7', __( 'Please accept marketing cookies to enable this form', 'complianz-gdpr' ) );
+		}
 	}
 
 	return $message;
@@ -126,6 +124,8 @@ add_filter( 'cmplz_form_types', 'cmplz_contactform7_form_types' );
 
 add_filter( 'cmplz_dependencies', 'cmplz_contactform7_dependencies' );
 function cmplz_contactform7_dependencies( $tags ) {
+	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '>=')) return $tags;
+
 	if (class_exists('IQFix_WPCF7_Deity')) return $tags;
 
 	$service = WPCF7_RECAPTCHA::get_instance();
@@ -143,12 +143,16 @@ function cmplz_contactform7_dependencies( $tags ) {
 
 add_filter( 'cmplz_known_script_tags', 'cmplz_contactform7_script' );
 function cmplz_contactform7_script( $tags ) {
+	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '>=')) return $tags;
+
 	$service = WPCF7_RECAPTCHA::get_instance();
 	if (cmplz_get_value('block_recaptcha_service') === 'yes'){
-	if ( $service->is_active() ) {
-		$tags[] = 'modules/recaptcha/script.js';
+		if ( $service->is_active() ) {
+			$tags[] = 'modules/recaptcha/script.js';
+			$tags[] = 'recaptcha/index.js';
+			$tags[] = 'recaptcha/api.js';
+		}
 	}
-}
 	return $tags;
 }
 
@@ -238,6 +242,8 @@ add_action( "cmplz_add_consent_box_contact-form-7",
  * @return array
  */
 function cmplz_contactform7_detected_services( $services ) {
+	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '>=')) return $services;
+
 	$recaptcha = WPCF7_RECAPTCHA::get_instance();
 
 	if ( $recaptcha->is_active()
@@ -250,3 +256,39 @@ function cmplz_contactform7_detected_services( $services ) {
 }
 
 add_filter( 'cmplz_detected_services', 'cmplz_contactform7_detected_services' );
+
+/**
+ * Add a warning that we're dropping support for further Contact Form 7 changes
+ *
+ * @param array $warnings
+ *
+ * @return array
+ */
+function cmplz_cf7_warnings_types($warnings)
+{
+	$warnings['contact-form-7'] = array(
+		'plus_one' => true,
+		'warning_condition' => '_true_',
+		'open' => __( 'Due to continuous breaking changes in Contact Form 7 we are dropping the CF7 integration as of CF7 5.4. We have concluded that the only viable solution is for Contact Form 7 to integrate with the WP Consent API.', 'complianz-gdpr' ).cmplz_read_more('https://complianz.io/why-the-wp-consent-api-is-important-a-case-study-with-cf7-and-recaptcha/'),
+	);
+
+	return $warnings;
+}
+add_filter('cmplz_warning_types', 'cmplz_cf7_warnings_types');
+
+/**
+ * Check if cf7 recaptch activate for >5.4 versions.
+ * @return bool
+ */
+
+function cmplz_cf7_recaptcha_active(){
+	//it works before 5.4.
+	if (defined('WPCF7_VERSION') && version_compare(WPCF7_VERSION, 5.4, '<')) {
+		return false;
+	}
+	$recaptcha = WPCF7_RECAPTCHA::get_instance();
+	if ( $recaptcha->is_active() ) {
+		return true;
+	}
+	return false;
+}

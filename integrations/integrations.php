@@ -3,15 +3,110 @@ defined( 'ABSPATH' ) or die( "you do not have acces to this page!" );
 if ( is_admin() ) {
 	require_once( 'integrations-menu.php' );
 }
-require_once( 'forms.php' );
+require_once( trailingslashit(cmplz_path) . 'integrations/forms.php' );
+require_once( trailingslashit(cmplz_path) . 'integrations/settings.php' );
 
 if ( is_admin() ) {
 	require_once( 'TGM/required.php' );
 }
 
+function cmplz_enqueue_integrations_assets( $hook ) {
+	if ( strpos($hook, "cmplz-script-center")===false  ) return;
+
+	wp_register_script( ' cmplz-pagify', trailingslashit( cmplz_url ) . 'assets/pagify/pagify.min.js', array( "jquery" ), cmplz_version );
+	wp_enqueue_script( ' cmplz-pagify' );
+
+	wp_register_style( ' cmplz-pagify', trailingslashit( cmplz_url ) . 'assets/pagify/pagify.css', false, cmplz_version );
+	wp_enqueue_style( ' cmplz-pagify' );
+
+}
+add_action( 'admin_enqueue_scripts', 'cmplz_enqueue_integrations_assets' );
+
 global $cmplz_integrations_list;
 $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
-	//user registration plugin
+	'advanced-nocaptcha-recaptcha' => array(
+			'constant_or_function' => 'ANR_PLUGIN_VERSION',
+			'label'                => 'Advanced noCaptcha & invisible Captcha',
+			'firstparty_marketing' => false,
+	),
+	'theeventscalendar' => array(
+			'constant_or_function' => 'TRIBE_EVENTS_FILE',
+			'label'                => 'The Events Calendar',
+			'firstparty_marketing' => false,
+	),
+
+	'wp-video-lightbox' => array(
+			'constant_or_function' => 'WP_VIDEO_LIGHTBOX_VERSION',
+			'label'                => 'WP Video Lightbox',
+			'firstparty_marketing' => false,
+	),
+
+	'woocommerce-variation-swatches' => array(
+			'constant_or_function' => 'woo_variation_swatches',
+			'label'                => 'Variation Swatches for WooCommerce',
+			'firstparty_marketing' => false,
+	),
+
+	'ultimate-addons-elementor' => array(
+			'constant_or_function' => 'UAEL_FILE',
+			'label'                => 'Ultimate Addons for Elementor',
+			'firstparty_marketing' => false,
+	),
+
+	'invisible-recaptcha' => array(
+			'constant_or_function' => 'InvisibleReCaptcha',
+			'label'                => 'Google Invisible reCaptcha voor WordPress',
+			'firstparty_marketing' => false,
+	),
+
+  'easy-fancybox' => array(
+	 	  'constant_or_function' => 'EASY_FANCYBOX_VERSION',
+		  'label'                => 'Easy FancyBox',
+		  'firstparty_marketing' => false,
+  ),
+
+	'novo-map' => array(
+			'constant_or_function' => 'NOVO_MAP_VERSION',
+			'label'                => 'Novo-Map',
+			'firstparty_marketing' => false,
+	),
+
+	'citadela-directory' => array(
+			'constant_or_function' => 'CITADELA_DIRECTORY_LITE_PLUGIN',
+			'label'                => 'Citadela Directory',
+			'firstparty_marketing' => false,
+	),
+
+	'elementor' => array(
+			'constant_or_function' => 'ELEMENTOR_VERSION',
+			'label'                => 'Elementor',
+			'firstparty_marketing' => false,
+	),
+
+	'nudgify'          => array(
+		'constant_or_function' => 'NUDGIFY_PLUGIN_VERSION',
+		'label'                => 'Nudgify',
+		'firstparty_marketing' => false,
+	),
+
+	'generatepress-maps'          => array(
+		'constant_or_function' => 'GeneratePress',
+		'label'                => 'GeneratePress Maps',
+		'firstparty_marketing' => false,
+	),
+
+	'volocation'          => array(
+		'constant_or_function' => 'VOSL_VERSION',
+		'label'                => 'VO Locator',
+		'firstparty_marketing' => false,
+	),
+
+	'trustpulse'          => array(
+		'constant_or_function' => 'TRUSTPULSE_PLUGIN_VERSION',
+		'label'                => 'TrustPulse',
+		'firstparty_marketing' => false,
+	),
+
 	'addtoany'          => array(
 		'constant_or_function' => 'A2A_SHARE_SAVE_init',
 		'label'                => 'Add To Any',
@@ -21,6 +116,12 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 	'amp'               => array(
 		'constant_or_function' => 'AMP__VERSION',
 		'label'                => 'AMP (official AMP plugin for WordPress)',
+		'firstparty_marketing' => false,
+	),
+
+	'podcast-player'         => array(
+		'constant_or_function' => 'PODCAST_PLAYER_VERSION',
+		'label'                => 'Podcast Player',
 		'firstparty_marketing' => false,
 	),
 
@@ -54,7 +155,7 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 	),
 
 	'acf'           => array(
-		'constant_or_function' => 'ACF',
+		'constant_or_function' => 'ACF_VERSION',
 		'label'                => 'Advanced Custom Fields',
 		'firstparty_marketing' => false,
 	),
@@ -62,6 +163,30 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 	'pixelyoursite'     => array(
 		'constant_or_function' => 'PYS_FREE_VERSION',
 		'label'                => 'PixelYourSite',
+		'firstparty_marketing' => false,
+	),
+
+	'pixelyoursite-pro'     => array(
+			'constant_or_function' => 'PYS_VERSION',
+			'label'                => 'PixelYourSite Pro',
+			'firstparty_marketing' => false,
+	),
+	
+	'pixelyoursite-pinterest'     => array(
+			'constant_or_function' => 'PYS_PINTEREST_VERSION',
+			'label'                => 'PixelYourSite Pinterest',
+			'firstparty_marketing' => false,
+	),
+
+	'pixelyoursite-bing'     => array(
+			'constant_or_function' => 'PYS_BING_VERSION',
+			'label'                => 'PixelYourSite Bing',
+			'firstparty_marketing' => false,
+	),
+
+	'weglot-translate'          => array(
+		'constant_or_function' => 'WEGLOT_VERSION',
+		'label'                => 'Weglot Translate',
 		'firstparty_marketing' => false,
 	),
 
@@ -137,6 +262,22 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'firstparty_marketing' => false,
 	),
 
+//	'wp-google-map-plugin'            => array(
+//		'constant_or_function' => 'WPGMP_VERSION',
+//		'label'                => 'WP Google Map Plugin',
+//		'firstparty_marketing' => false,
+//	),
+
+	'woocommerce-google-analytics-pro' => array(
+		'constant_or_function' => 'WC_Google_Analytics_Pro_Loader',
+		'label'                => 'Woocommerce Google Analytics Pro',
+		'firstparty_marketing' => false,
+	),
+	'woocommerce-google-analytics-integration' => array(
+		'constant_or_function' => 'WC_Google_Analytics_Integration',
+		'label'                => 'Woocommerce Google Analytics Integration',
+		'firstparty_marketing' => false,
+	),
 	'geo-my-wp' => array(
 		'constant_or_function' => 'GMW_VERSION',
 		'label'                => 'Geo My WP',
@@ -182,24 +323,6 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 	'tidio-live-chat'  => array(
 		'constant_or_function' => 'TIDIOCHAT_VERSION',
 		'label'                => 'Tidio Live Chat',
-		'firstparty_marketing' => false,
-	),
-
-	'instagram-feed'   => array(
-		'constant_or_function' => 'SBIVER',
-		'label'                => 'Smash Balloon Instagram Feed',
-		'firstparty_marketing' => false,
-	),
-
-	'facebook-feed'   => array(
-		'constant_or_function' => 'CFFVER',
-		'label'                => 'Smash Balloon Facebook Feed',
-		'firstparty_marketing' => false,
-	),
-
-	'twitter-feed'   => array(
-		'constant_or_function' => 'CTF_VERSION',
-		'label'                => 'Smash Balloon Twitter Feed',
 		'firstparty_marketing' => false,
 	),
 
@@ -253,10 +376,6 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 	'gravity-forms' => array(
 		'constant_or_function' => 'GF_MIN_WP_VERSION',
 		'label'                => 'Gravity Forms',
-		'callback_condition'   => array(
-			'privacy-statement' => 'generated',
-			'regions'           => 'eu',
-		),
 		'firstparty_marketing' => false,
 	),
 ) );
@@ -319,7 +438,6 @@ function cmplz_is_integration_enabled( $plugin_name ) {
  * @return bool
  */
 function cmplz_integration_plugin_is_active( $plugin ){
-
 	global $cmplz_integrations_list;
 	if ( !isset($cmplz_integrations_list[ $plugin ]) ) return false;
 
@@ -327,14 +445,17 @@ function cmplz_integration_plugin_is_active( $plugin ){
 	$fields = get_option( 'complianz_options_integrations' );
 	$details = $cmplz_integrations_list[ $plugin ];
 	$enabled = isset( $fields[ $plugin ] ) ? $fields[ $plugin ] : true;
-	if ( ( defined( $details['constant_or_function'] )
-	       || function_exists( $details['constant_or_function'] )
-	       || class_exists( $details['constant_or_function'] ) )
-	     && $enabled
+	$theme = wp_get_theme();
+	if (
+			( defined($details['constant_or_function'])
+			   || function_exists( $details['constant_or_function'] )
+			   || class_exists( $details['constant_or_function'] )
+			   || ( $theme && ($theme->name === $details['constant_or_function']) )
+			)
+	     	&& $enabled
 	) {
 		return true;
 	}
-
 	return false;
 }
 
@@ -445,7 +566,7 @@ function cmplz_uses_thirdparty( $name ) {
 }
 
 
-add_action( 'complianz_after_field', 'cmplz_add_placeholder_checkbox', 9, 1 );
+add_action( 'complianz_after_label', 'cmplz_add_placeholder_checkbox', 91, 1 );
 function cmplz_add_placeholder_checkbox( $args ) {
 	if ( ! isset( $args['fieldname'] ) || ! isset( $args["type"] )
 	     || $args["type"] !== 'checkbox'
@@ -454,60 +575,65 @@ function cmplz_add_placeholder_checkbox( $args ) {
 	}
 
 	if ( isset( $_GET["page"] ) && $_GET["page"] === 'cmplz-script-center' ) {
-
-		$fieldname     = str_replace( "-", "_",
-			sanitize_text_field( $args['fieldname'] ) );
+		$fieldname     = str_replace( "-", "_", sanitize_text_field( $args['fieldname'] ) );
 		$function_name = $fieldname;
-
-		$has_placeholder
-			                   = ( function_exists( "cmplz_{$function_name}_placeholder" ) );
-		$disabled_placeholders = get_option( 'cmplz_disabled_placeholders',
-			array() );
-		$value                 = ! in_array( $fieldname,
-			$disabled_placeholders );
-
+		$has_placeholder = ( function_exists( "cmplz_{$function_name}_placeholder" ) );
+		$disabled_placeholders = get_option( 'cmplz_disabled_placeholders', array() );
+		$value = ! in_array( $fieldname, $disabled_placeholders );
 		$disabled  = ! $has_placeholder;
 		$fieldname = 'cmplz_placeholder_' . $fieldname;
-
-		if ( $args['table'] ) {
-			echo '</td><td style="width:70%">';
-		} else {
-			echo '</div>';
-		}
 		if ( ! $has_placeholder ) {
 			?>
-			<label class="cmplz-switch">
-				<span class="cmplz-slider-na cmplz-round"></span>
+			<label class="cmplz-checkbox-container cmplz-disabled">N/A
+				<input
+						disabled
+						name=""
+						class=""
+						type="checkbox"
+						value="1">
+				<div class="checkmark"></div>
 			</label>
 			<?php
 		} else {
 			?>
-			<label class="cmplz-switch">
-				<input name="<?php echo esc_html( $fieldname ) ?>" type="hidden"
-				       value=""/ <?php if ( $disabled ) {
-					echo 'disabled';
-				} ?>>
-
-				<input name="<?php echo esc_html( $fieldname ) ?>" size="40"
-				       type="checkbox"
-					<?php if ( $disabled ) {
-						echo 'disabled';
-					} ?>
-					   class="<?php if ( $args['required'] ) {
-						   echo 'is-required';
-					   } ?>"
-					   value="1" <?php checked( 1, $value, true ) ?> />
-				<span class="cmplz-slider cmplz-round"></span>
+			<label class="cmplz-checkbox-container <?php echo $disabled ? 'cmplz-disabled' : '' ?>"><?php _e("Placeholder", "complianz-gdpr") ?>
+				<input
+						name="<?php echo esc_html( $fieldname ) ?>"
+						type="hidden"
+						value="0"
+						<?php if ( $disabled ) {echo 'disabled';} ?>
+				>
+				<input
+						<?php if ( $disabled ) {echo 'disabled';} ?>
+						name="<?php echo $fieldname ?>"
+						type="checkbox"
+						value="1"
+						<?php checked( 1, $value, true ) ?>
+				>
+				<div
+						class="checkmark <?php echo $disabled ? 'cmplz-disabled' : '' ?>"
+						<?php checked( 1, $value, true ) ?>
+				><?php echo cmplz_icon('check', 'success'); ?></div>
 			</label>
 			<?php
-		}
-		if ( $args['table'] ) {
-			echo '</td></tr>';
-		} else {
-			echo '</div>';
 		}
 	}
 }
+
+function cmplz_notify_of_plugin_integrations( $warnings ){
+	$fields = COMPLIANZ::$config->fields( 'integrations' );
+	foreach ($fields as $id => $field ) {
+		if ($field['disabled']) continue;
+		$warnings[$id] = array(
+			'open' => sprintf(__( 'We have enabled the %s integration.', 'complianz-gdpr' ), $field['label']).cmplz_read_more("https://complianz.io/enabled-integration"),
+			'include_in_progress' => false,
+		);
+	}
+
+	return $warnings;
+}
+add_filter( 'cmplz_warning_types', 'cmplz_notify_of_plugin_integrations' );
+
 
 /**
  * placeholders that are disabled will be removed by hook here.
@@ -527,8 +653,6 @@ function cmplz_unset_placeholder_hooks() {
 				"cmplz_{$service}_placeholder" );
 		}
 	}
-
-
 }
 
 /**

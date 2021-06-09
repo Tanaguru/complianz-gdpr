@@ -72,7 +72,6 @@ add_action( 'after_setup_theme', 'cmplz_caos_remove_scripts_others' );
 function cmplz_caos_filter_fields( $fields ) {
 	unset( $fields['configuration_by_complianz'] );
 	unset( $fields['UA_code'] );
-
 	return $fields;
 }
 
@@ -106,7 +105,7 @@ add_action( 'init', 'cmplz_caos_remove_actions' );
  * @param $args
  */
 function cmplz_caos_show_compile_statistics_notice( $args ) {
-	cmplz_notice( sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.",
+	cmplz_sidebar_notice( sprintf( __( "You use %s, which means the answer to this question should be Google Analytics.",
 		'complianz-gdpr' ), 'CAOS host analytics locally' ) );
 }
 
@@ -122,13 +121,8 @@ add_action( 'cmplz_notice_compile_statistics',
  */
 
 function cmplz_caos_filter_warnings( $warnings ) {
-	if ( ( $key = array_search( 'ga-needs-configuring', $warnings ) )
-	     !== false
-	) {
-		unset( $warnings[ $key ] );
-	}
-
+	unset( $warnings[ 'ga-needs-configuring' ] );
 	return $warnings;
 }
 
-add_filter( 'cmplz_warnings', 'cmplz_caos_filter_warnings' );
+add_filter( 'cmplz_warning_types', 'cmplz_caos_filter_warnings' );

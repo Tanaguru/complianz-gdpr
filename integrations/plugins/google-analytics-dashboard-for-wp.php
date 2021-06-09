@@ -40,21 +40,11 @@ add_filter( 'exactmetrics_get_option', 'cmplz_gadwp_options' , 10, 3 );
  */
 
 function cmplz_gadwp_filter_warnings( $warnings ) {
-	if ( ( $key = array_search( 'ga-needs-configuring', $warnings ) )
-	     !== false
-	) {
-		unset( $warnings[ $key ] );
-	}
-	if ( ( $key = array_search( 'gtm-needs-configuring', $warnings ) )
-	     !== false
-	) {
-		unset( $warnings[ $key ] );
-	}
-
+	unset( $warnings[ 'ga-needs-configuring' ] );
+	unset( $warnings[ 'gtm-needs-configuring' ] );
 	return $warnings;
 }
-
-add_filter( 'cmplz_warnings', 'cmplz_gadwp_filter_warnings' );
+add_filter( 'cmplz_warning_types', 'cmplz_gadwp_filter_warnings' );
 
 /**
  * Hide the stats configuration options when gadwp is enabled.
@@ -89,11 +79,11 @@ add_action( 'after_setup_theme', 'cmplz_gadwp_remove_scripts_others' );
  */
 function cmplz_gadwp_compile_statistics_more_info_notice() {
 	if ( cmplz_no_ip_addresses() ) {
-		cmplz_notice( sprintf( __( "You have selected you anonymize IP addresses. This setting is now enabled in %s.",
+		cmplz_sidebar_notice( sprintf( __( "You have selected you anonymize IP addresses. This setting is now enabled in %s.",
 			'complianz-gdpr' ), 'Google Analytics Dashboard for WP' ) );
 	}
 	if ( cmplz_statistics_no_sharing_allowed() ) {
-		cmplz_notice( sprintf( __( "You have selected you do not share data with third-party networks. Display advertising is now disabled in %s.",
+		cmplz_sidebar_notice( sprintf( __( "You have selected you do not share data with third-party networks. Display advertising is now disabled in %s.",
 			'complianz-gdpr' ), 'Google Analytics Dashboard for WP' ) );
 	}
 }

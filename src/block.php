@@ -35,7 +35,7 @@ function cmplz_editor_assets() { // phpcs:ignore
         'cmplz-block',
         'complianz',
         array(
-            'site_url' => site_url(),
+            'site_url' => get_rest_url(),
             //'query_preview' => plugins_url( 'img/wp-query-preview.jpg', __FILE__ ),
             'cmplz_preview' => cmplz_url.  'assets/images/gutenberg-preview.png',
         )
@@ -45,7 +45,7 @@ function cmplz_editor_assets() { // phpcs:ignore
     //wp package install git@github.com:wp-cli/i18n-command.git
     //wp i18n make-pot . config/languages/complianz-json.pot --include="src"
     //wp i18n make-json . config/languages/complianz-json.pot config/languages/
-    wp_set_script_translations( 'cmplz-block', 'complianz-gdpr' , cmplz_path . 'config/languages');
+    wp_set_script_translations( 'cmplz-block', 'complianz-gdpr' , cmplz_path . '/languages');
 
 	// Styles.
 	$load_css = cmplz_get_value('use_document_css');

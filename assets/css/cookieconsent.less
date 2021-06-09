@@ -10,6 +10,20 @@
   }
 }
 #cc-window {
+  .cc-header {
+	font-size: 18px;
+	font-weight: 700;
+	width: 100%;
+	margin-bottom: 10px;
+  }
+
+  //bottom or top
+  &.cc-banner {
+	.cc-header {
+	  display:none;
+	}
+  }
+
   &.cc-floating {
 	min-width: 468px;
   }
@@ -100,6 +114,9 @@
 	  }
 
 	  &.cc-theme-edgeless{
+		.cmplz-categories-wrap{
+		  padding-left:1.1em;
+		}
 		&.cmplz-categories-no, &.cmplz-categories-hidden {
 		  .cc-compliance {
 			.cc-dismiss, .cc-save {
@@ -144,7 +161,6 @@
 		  }
 
 		  .cc-btn {
-			//width: 100%;
 			float: initial;
 			margin: 15px 0 0 0;
 		  }
@@ -153,17 +169,13 @@
 	}
   }
 
-  &.cc-theme-edgeless .cc-btn {
-	border: 0;
-  }
-
-  &.cc-theme-minimal .cc-btn {
-	border-radius: 5px;
-  }
-
-  &.cc-window.cc-theme-minimal .cc-btn.cc-accept-all {
-	border-radius: 5px;
-	border-width: 1px;
+  &.cc-theme-edgeless {
+	.cc-header {
+	  margin:1em 1em 0 1.7em;
+	}
+	.cc-btn {
+	  border: 0;
+	}
   }
 
   &.cmplz-hide-cats {
@@ -201,7 +213,17 @@
 }
 //end #cc-window
 
+//make sure the popup is over the revoke button.
+.cc-revoke {
+  z-index:9998;
 
+  //because it's now a button, we need to prevent button issues
+  border:0;
+  &:active {
+	outline: none;
+	border: none;
+  }
+}
 
 //Hide Revoke button on mobile screens
 @media screen and (max-width: 768px) {
@@ -223,6 +245,16 @@
   border-top-right-radius: 0.5em;
 }
 
+/**IE 11 fix for left:unset */
+.cc-revoke{
+  &.cc-right {
+  	left:auto;
+  }
+  &.left {
+	right:auto;
+  }
+}
+
 /*
 * Hide revoke button
 * prevent overriding by script by using !important
@@ -233,18 +265,12 @@
 
 .cc-window{
   &.cc-theme-minimal {
-	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
-	-moz-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
-	box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+	//-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+	//-moz-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+	//box-shadow: 0 0 10px rgba(0, 0, 0, .4);
 
 	&:not(.cc-floating) .cc-message {
 	  text-align: center;
-	}
-	.cc-btn {
-	  &.cc-allow, &.cc-save, &.cc-dismiss {
-		border-radius: 5px;
-		border-width: 1px;
-	  }
 	}
   }
 
@@ -255,9 +281,9 @@
 	transform: translate(-50%, -50%);
 	width: 50%;
 	min-width: 360px;
-	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
-	-moz-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
-	box-shadow: 0 0 10px rgba(0, 0, 0, .4)
+	//-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+	//-moz-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+	//box-shadow: 0 0 10px rgba(0, 0, 0, .4)
   }
 }
 
@@ -282,7 +308,6 @@
 	}
   }
 
-  // #start-tng-a11y
   //prevent classic checkbox from showing up in square and slider variant
   //We cannot use display none or height 0, as the checkboxes can't be made to enable on keyboard or with screen reader. https://hugogiraudel.com/2016/10/13/css-hide-and-seek/
   input.cmplz-svg-checkbox, .cmplz-slider-checkbox input {
@@ -295,8 +320,10 @@
 	overflow: hidden;
 	clip: rect(1px, 1px, 1px, 1px);
 	clip-path: inset(50%);
+	//display: block !important;
+	//opacity: 0 !important;
+	//height: 0 !important;
   }
-  // #end-tng-a11y
 
   /* Slider style checkboxes */
   .cmplz-slider-checkbox {
@@ -394,11 +421,11 @@
 	padding-left:0;
   }
 
-  &.cc-theme-edgeless .cmplz-categories-wrap {
-	.cmplz-classic-checkbox {
-	  margin-left:15px;
-	}
-  }
+  //&.cc-theme-edgeless .cmplz-categories-wrap {
+	//.cmplz-classic-checkbox {
+	// // margin-left:15px;
+	//}
+  //}
 }
 
 #cc-window.cc-window .cmplz-categories-wrap, #cmplz-manage-consent-container.cmplz-manage-consent-container,#cmplz-tcf-container.cmplz-tcf-container {
@@ -469,6 +496,11 @@
   display:none;
 }
 
+//don't show cookie wall on optout
+.cmplz-optout .cmplz-soft-cookiewall{
+  position:initial;
+}
+
 //this class should not be contained in blocked content container class, to ensure it applies also before the complianz script has added the blocked content classå
 .cmplz-video {
   //prevent theme's from hiding the placeholder image with a background color
@@ -511,7 +543,7 @@
 	text-transform: initial;
 	cursor:pointer;
 	position:absolute !important;
-	width:50%;
+	width:100%;
 	top:50%;
 	left:50%;
 	transform:translate(-50%, -50%);
@@ -527,4 +559,132 @@
 	line-height: 23px;
   }
 
+}
+
+.cmplz-dismiss {
+	opacity: 0;
+  display:none;
+}
+
+.cmplz-animation-fade {
+	-webkit-animation: fadeIn 1s;
+	animation: fadeIn 1s;
+
+	&.cmplz-dismiss {
+		-webkit-animation: fadeOut 1s;
+		animation: fadeOut 1s;
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+	@keyframes fadeOut {
+		to {
+			opacity: 0;
+		}
+		from {
+			opacity: 1;
+		}
+	}
+}
+
+.cmplz-animation-slide.cc-top {
+	-webkit-animation: slideInUpBottom 1s;
+	animation: slideInUpBottom 1s;
+
+	&.cmplz-dismiss {
+		-webkit-animation: slideOutUpBottom 1s;
+		animation: slideOutUpBottom 1s;
+	}
+	@keyframes slideInUpBottom {
+		from {
+			-webkit-transform: translate3d(0, -150%, 0);
+			transform: translate3d(0, -150%, 0);
+		}
+		to {
+			-webkit-transform: translate3d(0, 0, 0);
+			transform: translate3d(0, 0, 0);
+		}
+	}
+	@keyframes slideOutUpBottom {
+		to {
+			-webkit-transform: translate3d(0, -150%, 0);
+			transform: translate3d(0, -150%, 0);
+			opacity: 1;
+		}
+		from {
+			-webkit-transform: translate3d(0, 0, 0);
+			transform: translate3d(0, 0, 0);
+			opacity: 1;
+		}
+	}
+}
+
+.cmplz-animation-slide.cc-center {
+	-webkit-animation: slideInUpCenter 1s;
+	animation: slideInUpCenter 1s;
+
+	&.cmplz-dismiss {
+		-webkit-animation: slideOutUpCenter 1s;
+		animation: slideOutUpCenter 1s;
+	}
+	@keyframes slideInUpCenter {
+		from {
+			-webkit-transform: translate3d(-50%, 150%, 0);
+			transform: translate3d(-50%, 150%, 0);
+		}
+		to {
+			-webkit-transform: translate3d(-50%, -50%, 0);
+			transform: translate3d(-50%, -50%, 0);
+		}
+	}
+	@keyframes slideOutUpCenter {
+		to {
+			-webkit-transform: translate3d(-50%, 150%, 0);
+			transform: translate3d(-50%, 150%, 0);
+			opacity: 1;
+		}
+		from {
+			-webkit-transform: translate3d(-50%, -50%, 0);
+			transform: translate3d(-50%, -50%, 0);
+			opacity: 1;
+		}
+	}
+}
+
+.cmplz-animation-slide.cc-bottom {
+	-webkit-animation: slideInUpTop 1s;
+	animation: slideInUpTop 1s;
+
+	&.cmplz-dismiss {
+		-webkit-animation: slideOutUpTop 1s;
+		animation: slideOutUpTop 1s;
+	}
+	@keyframes slideInUpTop {
+		from {
+			-webkit-transform: translate3d(0, 150%, 0);
+			transform: translate3d(0, 150%, 0);
+		}
+		to {
+			-webkit-transform: translate3d(0, 0, 0);
+			transform: translate3d(0, 0, 0);
+		}
+	}
+	@keyframes slideOutUpTop {
+		to {
+			-webkit-transform: translate3d(0, 150%, 0);
+			transform: translate3d(0, 150%, 0);
+			opacity: 1;
+		}
+		from {
+			-webkit-transform: translate3d(0, 0, 0);
+			transform: translate3d(0, 0, 0);
+			opacity: 1;
+		}
+	}
 }

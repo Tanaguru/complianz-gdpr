@@ -90,12 +90,11 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 		 */
 
 		public function add(
-			$name, $languages = array( 'en' ), $return_language = false,
-			$service_name = false, $sync_on = true
+			$name, $languages = array( 'en' ), $return_language = false, $service_name = false, $sync_on = true
 		) {
 			$this->name = $this->sanitize_cookie( $name );
 
-			//the parent cookie gets en as default language
+			//the parent cookie gets "en" as default language
 			$this->language = 'en';
 			$return_id      = 0;
 
@@ -126,8 +125,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				if ( $language == 'en' ) {
 					continue;
 				}
-
-				$translated_cookie = new CMPLZ_COOKIE( $name, $language );
+				$translated_cookie = new CMPLZ_COOKIE( $name, $language, $service_name );
 				if ( ! $translated_cookie->ID ) {
 					$translated_cookie->sync         = $sync_on;
 					$translated_cookie->showOnPolicy = true;
@@ -247,22 +245,22 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				$sql = " AND isTranslationFrom = FALSE";
 			}
 
+			//if the service is set, we check within the service as well.
+			if ( $this->service ) {
+				$service = new CMPLZ_SERVICE($this->service, $this->language );
+				if ($service->ID) $sql .= $wpdb->prepare(" AND serviceID = %s", $service->ID);
+			}
+
 			if ( $this->ID ) {
-				$cookie
-					= $wpdb->get_row( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookies where ID = %s ",
-					$this->ID ) );
+				$cookie = $wpdb->get_row( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookies where ID = %s ", $this->ID ) );
 			} else {
-				$cookie
-					= $wpdb->get_row( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookies where name = %s and language = %s $sql",
-					$this->name, $this->language ) );
+				$cookie = $wpdb->get_row( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookies where name = %s and language = %s $sql", $this->name, $this->language ) );
 			}
 
 			//if there's no match, try to do a fuzzy match
 			if ( ! $cookie ) {
-				$cookies
-					       = $wpdb->get_results( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookies where language = %s $sql",
-					$this->language ) );
-				$cookies   = wp_list_pluck( $cookies, 'name', 'ID' );
+				$cookies = $wpdb->get_results( $wpdb->prepare( "select * from {$wpdb->prefix}cmplz_cookies where language = %s $sql", $this->language ) );
+				$cookies = wp_list_pluck( $cookies, 'name', 'ID' );
 				$cookie_id = $this->get_fuzzy_match( $cookies, $this->name );
 				if ( $cookie_id ) {
 					$cookie
@@ -273,7 +271,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 
 			if ( $cookie ) {
 				$this->ID                    = $cookie->ID;
-				$this->name                  = $cookie->name;
+				$this->name                  = substr($cookie->name, 0, 100); //maximize cookie name length
 				$this->serviceID             = $cookie->serviceID;
 				$this->sync                  = $cookie->sync;
 				$this->language              = $cookie->language;
@@ -298,6 +296,18 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				                               < strtotime( '-3 months' )
 				                               && $cookie->lastAddDate > 0
 					? true : false;
+			}
+
+			/**
+			 * Don't translate with Polylang, as polylang does not use the fieldname to translate. This causes mixed up strings when context differs.
+			 * To prevent newly added cookies from getting translated, only translate when not in admin or cron, leaving front-end, where cookies aren't saved.
+			 */
+			if ( !defined('POLYLANG_VERSION') && $this->language !== 'en' && !is_admin() && !wp_doing_cron() ) {
+				if (!empty($this->retention) ) $this->retention = cmplz_translate($this->retention, 'cookie_retention');
+				//type should not be translated
+				if (!empty($this->cookieFunction) ) $this->cookieFunction = cmplz_translate($this->cookieFunction, 'cookie_function');
+				if (!empty($this->purpose) ) $this->purpose = cmplz_translate($this->purpose, 'cookie_purpose');
+				if (!empty($this->collectedPersonalData) ) $this->collectedPersonalData = cmplz_translate($this->collectedPersonalData, 'cookie_collected_personal_data');
 			}
 
 			/**
@@ -349,8 +359,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 				$service = new CMPLZ_SERVICE( $this->service, $this->language );
 				if ( ! $service->ID ) {
 					$languages       = $this->get_used_languages();
-					$this->serviceID = $service->add( $this->service,
-						$languages, $this->language );
+					$this->serviceID = $service->add( $this->service, $languages, $this->language );
 				} else {
 					$this->serviceID = $service->ID;
 				}
@@ -367,12 +376,17 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 					cmplz_get_value( 'cookie_expiry' ) );
 			}
 
-			cmplz_register_translation($this->retention, 'cookie_retention');
-			cmplz_register_translation($this->type, 'cookie_storage_type');
-			cmplz_register_translation($this->cookieFunction, 'cookie_function');
-			cmplz_register_translation($this->purpose, 'cookie_purpose');
-			cmplz_register_translation($this->collectedPersonalData, 'cookie_collected_personal_data');
+			/**
+			 * Don't translate with Polylang, as polylang does not use the fieldname to translate. This causes mixed up strings when context differs.
+			 */
 
+			if ( !defined('POLYLANG_VERSION') ) {
+				cmplz_register_translation($this->retention, 'cookie_retention');
+				cmplz_register_translation($this->type, 'cookie_storage_type');
+				cmplz_register_translation($this->cookieFunction, 'cookie_function');
+				cmplz_register_translation($this->purpose, 'cookie_purpose');
+				cmplz_register_translation($this->collectedPersonalData, 'cookie_collected_personal_data');
+			}
 
 			$update_array = array(
 				'name'                  => sanitize_text_field( $this->name ),
@@ -403,6 +417,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 			global $wpdb;
 			//if we have an ID, we update the existing value
 			if ( $this->ID ) {
+
 				$wpdb->update( $wpdb->prefix . 'cmplz_cookies',
 					$update_array,
 					array( 'ID' => $this->ID )
@@ -437,8 +452,7 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 		private function get_used_languages() {
 			global $wpdb;
 
-			$sql
-				       = "SELECT language FROM {$wpdb->prefix}cmplz_cookies group by language";
+			$sql = "SELECT language FROM {$wpdb->prefix}cmplz_cookies group by language";
 			$languages = $wpdb->get_results( $sql );
 			$languages = wp_list_pluck( $languages, 'language' );
 
@@ -459,6 +473,9 @@ if ( ! class_exists( "CMPLZ_COOKIE" ) ) {
 			}
 
 			$cookie = sanitize_text_field( $cookie );
+
+			//100 characters max
+			$cookie = substr($cookie, 0, 100);
 
 			//remove whitespace
 			$cookie = trim( $cookie );
